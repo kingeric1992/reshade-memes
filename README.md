@@ -1,2 +1,2 @@
-# reshade-bits
-Bits and pieces of Reshade shader codes by kingeric1992.
+# reshade-memes
+Public release of meme or useless ReShade shaders by kingeric1992.
