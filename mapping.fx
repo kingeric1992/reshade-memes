@@ -46,9 +46,9 @@ float4 imageMapEX( sampler2D texIn, float2 rUV, float2 rSize,
 }
 
 namespace mapping {
-    /**********************************************************
-    *  shader
-    **********************************************************/
+/**********************************************************
+ *  shaders
+ **********************************************************/
     texture     tex  < source = "thumb.png";> { Width = 128; Height = 128; };
     sampler2D   samp { Texture = tex; };
 
@@ -57,6 +57,9 @@ namespace mapping {
     uniform float4  gSRect  < ui_type = "slider"; ui_min = 0; ui_max = 1; > = float4(0,0,1,1);
     uniform float3  gCol    < ui_type = "color"; > = float3(1,0,0);
 
+/**********************************************************
+*  shader
+**********************************************************/
     // uv for different mapping mode. stretch, crop, fit, centered, repeat
     float4 vs_main( uint vid : SV_VERTEXID, out float2 uv : TEXCOORD0 ) : SV_POSITION {
         uv = vid.xx == uint2(2,1)? (2.).xx:(0.).xx;
@@ -65,9 +68,9 @@ namespace mapping {
     float4 ps_main( float4 vpos : SV_POSITION, float2 uv : TEXCOORD0 ) : SV_TARGET {
         return imageMapEX( samp, uv, float2(BUFFER_WIDTH,BUFFER_HEIGHT), gTRect, gSRect, gMode, gCol);
     }
-    /**********************************************************
-    *  technique
-    **********************************************************/
+/**********************************************************
+ *  technique
+ **********************************************************/
     technique mapping {
         pass p {
             VertexShader    = vs_main;

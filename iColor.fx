@@ -2,7 +2,6 @@
     iColor.fx by kingeric1992 (march.10.2021)
     Simply invert color b4 someone losing it
 */
-
 /**********************************************************
  *  shaders
  **********************************************************/
@@ -19,9 +18,8 @@ technique iColor
 {
     pass p0 {
         VertexShader = vs_main;
-        PixelShader = ps_main;
-
-        BlendEnable = true;
-        SrcBlend = INVDESTCOLOR;
+        PixelShader  = ps_main;
+        BlendEnable  = true;
+        SrcBlend     = INVDESTCOLOR;
     }
 }

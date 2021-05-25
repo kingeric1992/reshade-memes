@@ -8,10 +8,6 @@
 #define IMG_WIDTH  639
 #define IMG_HEIGHT 681
 
-/**********************************************************
- *
- **********************************************************/
-
 namespace overlay
 {
     uniform float   IMG_Deg   < ui_label="Degree"; ui_type="slider"; ui_min=-180; ui_max=180; ui_step=5;    > = 0;
@@ -38,8 +34,7 @@ namespace overlay
         float2 pos = rot((uv.x*2-1) * IMG_WIDTH/IMG_HEIGHT, 1.-uv.y*2, IMG_Deg) * IMG_Scale;
         return pos.x *= BUFFER_HEIGHT * BUFFER_RCP_WIDTH, float4(pos + IMG_Off, 0, 1);
     }
-    float4 ps_main( float4 pos : SV_POSITION, float2 uv : TEXCOORD) : SV_TARGET
-    {
+    float4 ps_main( float4 pos : SV_POSITION, float2 uv : TEXCOORD) : SV_TARGET {
         return all(uv<1) * tex2D(sampIn, uv) * IMG_Trans;
     }
     float4 vs_quad( uint vid : SV_VERTEXID, out float2 uv : TEXCOORD) : SV_POSITION
@@ -48,11 +43,9 @@ namespace overlay
         float2 pos = rot( (uv.x*2-1) * IMG_WIDTH, (1.-uv.y*2) * IMG_HEIGHT, IMG_Deg) * IMG_Scale;
         return pos.x *= BUFFER_RCP_WIDTH, pos.y *= BUFFER_RCP_HEIGHT, float4(pos + IMG_Off, 0, 1);
     }
-    float4 ps_quad( float4 pos : SV_POSITION, float2 uv : TEXCOORD) : SV_TARGET
-    {
+    float4 ps_quad( float4 pos : SV_POSITION, float2 uv : TEXCOORD) : SV_TARGET {
         return tex2D(sampIn, uv) * IMG_Trans;
     }
-
 /**********************************************************
  *  technique
  **********************************************************/
@@ -60,25 +53,25 @@ namespace overlay
     {
         pass p0 {
             VertexShader = vs_main;
-            PixelShader = ps_main;
+            PixelShader  = ps_main;
 
-            BlendEnable = true;
-            SrcBlend = SRCALPHA;
-            DestBlend = INVSRCALPHA;
+            BlendEnable  = true;
+            SrcBlend     = SRCALPHA;
+            DestBlend    = INVSRCALPHA;
         }
     }
-    technique quad_overlay
+    technique overlay_vs
     {
         pass p0 {
-            VertexCount = 4;
             PrimitiveTopology = TRIANGLESTRIP;
+            VertexCount       = 4;
 
-            VertexShader = vs_quad;
-            PixelShader = ps_quad;
+            VertexShader      = vs_quad;
+            PixelShader       = ps_quad;
 
-            BlendEnable = true;
-            SrcBlend = SRCALPHA;
-            DestBlend = INVSRCALPHA;
+            BlendEnable       = true;
+            SrcBlend          = SRCALPHA;
+            DestBlend         = INVSRCALPHA;
         }
     }
 } // overlay
